@@ -7,13 +7,7 @@ from chip.clusters import Objects as clusters
 from matter_server.client.models.node import MatterNode
 import pytest
 
-from homeassistant.components.cover import (
-    STATE_CLOSED,
-    STATE_CLOSING,
-    STATE_OPEN,
-    STATE_OPENING,
-    CoverEntityFeature,
-)
+from homeassistant.components.cover import CoverEntityFeature, CoverState
 from homeassistant.core import HomeAssistant
 
 from .common import set_node_attribute, trigger_subscription_callback
@@ -131,14 +125,14 @@ async def test_cover_lift(
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_CLOSING
+    assert state.state == CoverState.CLOSING
 
     set_node_attribute(matter_node, 1, 258, 10, 0b000101)
     await trigger_subscription_callback(hass, matter_client)
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_OPENING
+    assert state.state == CoverState.OPENING
 
 
 # This tests needs to be adjusted to remove lingering tasks
@@ -214,7 +208,7 @@ async def test_cover_position_aware_lift(
         state = hass.states.get(entity_id)
         assert state
         assert state.attributes["current_position"] == 100 - floor(position / 100)
-        assert state.state == STATE_OPEN
+        assert state.state == CoverState.OPEN
 
     set_node_attribute(matter_node, 1, 258, 14, 10000)
     set_node_attribute(matter_node, 1, 258, 10, 0b000000)
@@ -223,7 +217,7 @@ async def test_cover_position_aware_lift(
     state = hass.states.get(entity_id)
     assert state
     assert state.attributes["current_position"] == 0
-    assert state.state == STATE_CLOSED
+    assert state.state == CoverState.CLOSED
 
 
 # This tests needs to be adjusted to remove lingering tasks
@@ -268,14 +262,14 @@ async def test_cover_tilt(
     await trigger_subscription_callback(hass, matter_client)
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_CLOSING
+    assert state.state == CoverState.CLOSING
 
     set_node_attribute(matter_node, 1, 258, 10, 0b010001)
     await trigger_subscription_callback(hass, matter_client)
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_OPENING
+    assert state.state == CoverState.OPENING
 
 
 # This tests needs to be adjusted to remove lingering tasks
@@ -380,7 +374,7 @@ async def test_cover_full_features(
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_CLOSED
+    assert state.state == CoverState.CLOSED
 
     set_node_attribute(matter_node, 1, 258, 14, 5000)
     set_node_attribute(matter_node, 1, 258, 15, 10000)
@@ -389,7 +383,7 @@ async def test_cover_full_features(
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_OPEN
+    assert state.state == CoverState.OPEN
 
     set_node_attribute(matter_node, 1, 258, 14, 10000)
     set_node_attribute(matter_node, 1, 258, 15, 5000)
@@ -398,7 +392,7 @@ async def test_cover_full_features(
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_CLOSED
+    assert state.state == CoverState.CLOSED
 
     set_node_attribute(matter_node, 1, 258, 14, 5000)
     set_node_attribute(matter_node, 1, 258, 15, 5000)
@@ -407,7 +401,7 @@ async def test_cover_full_features(
 
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_OPEN
+    assert state.state == CoverState.OPEN
 
     set_node_attribute(matter_node, 1, 258, 14, 5000)
     set_node_attribute(matter_node, 1, 258, 15, None)
@@ -415,7 +409,7 @@ async def test_cover_full_features(
     await trigger_subscription_callback(hass, matter_client)
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_OPEN
+    assert state.state == CoverState.OPEN
 
     set_node_attribute(matter_node, 1, 258, 14, None)
     set_node_attribute(matter_node, 1, 258, 15, 5000)
@@ -431,7 +425,7 @@ async def test_cover_full_features(
     await trigger_subscription_callback(hass, matter_client)
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == STATE_CLOSED
+    assert state.state == CoverState.CLOSED
 
     set_node_attribute(matter_node, 1, 258, 14, None)
     set_node_attribute(matter_node, 1, 258, 15, 10000)
