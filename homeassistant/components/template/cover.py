@@ -15,6 +15,7 @@ from homeassistant.components.cover import (
     PLATFORM_SCHEMA as COVER_PLATFORM_SCHEMA,
     CoverEntity,
     CoverEntityFeature,
+    CoverState,
 )
 from homeassistant.const import (
     CONF_COVERS,
@@ -24,10 +25,6 @@ from homeassistant.const import (
     CONF_OPTIMISTIC,
     CONF_UNIQUE_ID,
     CONF_VALUE_TEMPLATE,
-    STATE_CLOSED,
-    STATE_CLOSING,
-    STATE_OPEN,
-    STATE_OPENING,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import TemplateError
@@ -46,10 +43,10 @@ from .template_entity import (
 
 _LOGGER = logging.getLogger(__name__)
 _VALID_STATES = [
-    STATE_OPEN,
-    STATE_OPENING,
-    STATE_CLOSED,
-    STATE_CLOSING,
+    CoverState.OPEN,
+    CoverState.OPENING,
+    CoverState.CLOSED,
+    CoverState.CLOSING,
     "true",
     "false",
     "none",
@@ -227,13 +224,13 @@ class CoverTemplate(TemplateEntity, CoverEntity):
 
         if state in _VALID_STATES:
             if not self._position_template:
-                if state in ("true", STATE_OPEN):
+                if state in ("true", CoverState.OPEN):
                     self._position = 100
                 else:
                     self._position = 0
 
-            self._is_opening = state == STATE_OPENING
-            self._is_closing = state == STATE_CLOSING
+            self._is_opening = state == CoverState.OPENING
+            self._is_closing = state == CoverState.CLOSING
         else:
             _LOGGER.error(
                 "Received invalid cover is_on state: %s for entity %s. Expected: %s",
