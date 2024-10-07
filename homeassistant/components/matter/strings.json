@@ -94,6 +94,16 @@
         "name": "Reset filter condition"
       }
     },
+    "climate": {
+      "thermostat": {
+        "name": "Thermostat"
+      }
+    },
+    "cover": {
+      "cover": {
+        "name": "[%key:component::cover::title%]"
+      }
+    },
     "event": {
       "button": {
         "name": "Button",
@@ -120,6 +130,7 @@
     },
     "fan": {
       "fan": {
+        "name": "[%key:component::fan::title%]",
         "state_attributes": {
           "preset_mode": {
             "state": {
@@ -149,6 +160,16 @@
       },
       "altitude": {
         "name": "Altitude above Sea Level"
+      }
+    },
+    "light": {
+      "light": {
+        "name": "[%key:component::light::title%]"
+      }
+    },
+    "lock": {
+      "lock": {
+        "name": "[%key:component::lock::title%]"
       }
     },
     "select": {
@@ -223,8 +244,16 @@
       }
     },
     "switch": {
+      "switch": {
+        "name": "[%key:component::switch::title%]"
+      },
       "power": {
         "name": "Power"
+      }
+    },
+    "valve": {
+      "valve": {
+        "name": "[%key:component::valve::title%]"
       }
     }
   },

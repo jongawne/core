@@ -20,7 +20,7 @@ async def test_turn_on(
     matter_node: MatterNode,
 ) -> None:
     """Test turning on a switch."""
-    state = hass.states.get("switch.mock_onoffpluginunit_switch")
+    state = hass.states.get("switch.mock_onoffpluginunit")
     assert state
     assert state.state == "off"
 
@@ -28,7 +28,7 @@ async def test_turn_on(
         "switch",
         "turn_on",
         {
-            "entity_id": "switch.mock_onoffpluginunit_switch",
+            "entity_id": "switch.mock_onoffpluginunit",
         },
         blocking=True,
     )
@@ -43,7 +43,7 @@ async def test_turn_on(
     set_node_attribute(matter_node, 1, 6, 0, True)
     await trigger_subscription_callback(hass, matter_client)
 
-    state = hass.states.get("switch.mock_onoffpluginunit_switch")
+    state = hass.states.get("switch.mock_onoffpluginunit")
     assert state
     assert state.state == "on"
 
@@ -57,7 +57,7 @@ async def test_turn_off(
     matter_node: MatterNode,
 ) -> None:
     """Test turning off a switch."""
-    state = hass.states.get("switch.mock_onoffpluginunit_switch")
+    state = hass.states.get("switch.mock_onoffpluginunit")
     assert state
     assert state.state == "off"
 
@@ -65,7 +65,7 @@ async def test_turn_off(
         "switch",
         "turn_off",
         {
-            "entity_id": "switch.mock_onoffpluginunit_switch",
+            "entity_id": "switch.mock_onoffpluginunit",
         },
         blocking=True,
     )
@@ -86,10 +86,10 @@ async def test_switch_unit(hass: HomeAssistant, matter_node: MatterNode) -> None
     # A switch entity should be discovered as fallback for ANY Matter device (endpoint)
     # that has the OnOff cluster and does not fall into an explicit discovery schema
     # by another platform (e.g. light, lock etc.).
-    state = hass.states.get("switch.mock_switchunit_switch")
+    state = hass.states.get("switch.mock_switchunit")
     assert state
     assert state.state == "off"
-    assert state.attributes["friendly_name"] == "Mock SwitchUnit Switch"
+    assert state.attributes["friendly_name"] == "Mock SwitchUnit"
 
 
 # This tests needs to be adjusted to remove lingering tasks
